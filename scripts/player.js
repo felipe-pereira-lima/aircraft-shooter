@@ -8,12 +8,9 @@ class Plane {
     this.RIGHTLIMIT = 290;
     this.TOPLIMIT = 10;
     this.BOTTOMLIMIT = 410;
-    this.moveSpeed = 15;
-    this.moveUp();
-    this.moveLeft();
-    this.moveRight();
-    this.moveDown();
-    this.paint(); //método do carro! faltou fazer isso
+    this.moveSpeed = 10;
+    this.paint();
+    this.move();
   }
 
   paint() {
@@ -26,17 +23,25 @@ class Plane {
     });
   }
 
-  moveUp() {
-    this.y -= 25;
-  }
-  moveDown() {
-    this.y += 25;
-  }
-  moveLeft() {
-    this.x -= 25;
-  }
-  moveRight() {
-    this.x += 25;
+  move() {
+    window.addEventListener('keydown', event => {
+      // Stop the default behavior (moving the screen to the left/up/right/down)
+      event.preventDefault();
+
+      // React based on the key pressed
+      switch (event.keyCode) {
+        case 37:
+          if (this.positionX > 0) {
+            this.positionX -= this.moveSpeed;
+            break;
+          }
+        case 39:
+          if (this.positionX < 290) {
+            this.positionX += this.moveSpeed;
+            break;
+          }
+      }
+    });
   }
 }
 

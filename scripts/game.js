@@ -6,5 +6,5 @@ class Game {
 
 function startGame() {
   plane.paint();
-  plane.moveUp(); //YOU NEED TO CALL THE GOD DAMN FUNCTION!
+  plane.move();
 }
