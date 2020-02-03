@@ -1,56 +1,35 @@
-const BLOCK_SIZE = 30;
-
 class Game {
   constructor($canvas) {
-    this.$canvas = $canvas;
-    Object.assign($canvas, {
-      width: $canvas.offsetWidth,
-      height: $canvas.offsetHeight
-    });
-    this.context = this.$canvas.getContext('2d');
-
-    this.keyboardController = new KeyboardController(this);
-    this.keyboardController.setKeyBindings();
-
+    this.canvas = $canvas;
+    this.context = $canvas.getContext('2d');
+    this.plane = new Player(this);
+    this.gameIsRunning = true;
+    this.startTime = new Date().getTime();
     this.background = new Background(this);
-    this.debug = new Debug(this);
-  }
-
-  //control(value) {};
-
-  //randomEnemies() {};
-
-  //removeUnnecessaryProjectiles() {};
-
-  start() {
-    this.reset();
-    //this.plane = new Plane(this);
+    this.currentTime = 0;
     this.loop();
   }
 
-  //reset() {};
+  cleanCanvas = () => {
+    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+  };
 
-  loop() {
-    this.flyLogic();
-    this.paint();
-    window.requestAnimationFrame(timestamp => this.loop(timestamp));
-    console.log('que tal?');
-  }
-
-  flyLogic() {
-    this.plane.flyLogic();
-  }
-
-  clear() {
-    const { width, height } = this.$canvas;
-    this.context.clearRect(0, 0, width, height);
-  }
-
-  paint() {
-    this.clear();
+  paint = () => {
+    this.cleanCanvas();
     this.background.paint();
-    //paint enemies blabla later
-    this.plane.paint();
-    this.debug.paint();
-  }
+    this.plane.drawImage();
+  };
+
+  /* background = () => {
+    this.background.paint()
+  } */
+
+  loop = timestamp => {
+    this.background.runLogic();
+    this.paint();
+
+    if (this.gameIsRunning) {
+      window.requestAnimationFrame(this.loop);
+    }
+  };
 }

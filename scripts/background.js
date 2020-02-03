@@ -1,40 +1,43 @@
-const $canvas = document.querySelector('canvas');
-const context = $canvas.getContext('2d');
+class Background {
+  constructor(game) {
+    this.game = game;
+    this.x = 0;
 
-let x = 0;
+    this.speed = 5;
 
-const speed = 5;
-
-const backgroundImage = new Image();
-backgroundImage.src = 'images/bg.jpg';
-
-const runLogic = () => {
-  /*
-  if (x < -1 * context.canvas.width) {
-    x = 0;
+    this.backgroundImage = new Image();
+    this.backgroundImage.src = 'images/bg.jpg';
+    this.backgroundImage.width = 600;
   }
-  */
-  x -= speed;
-  if (x < -790) {
-    debugger;
+
+  runLogic() {
+    this.x -= this.speed;
+    if (this.x < -790) {
+      debugger;
+    }
+    if (this.backgroundImage.width) {
+      this.x = this.x % this.backgroundImage.width;
+    }
   }
-  if (backgroundImage.width) {
-    x = x % backgroundImage.width;
+
+  paint() {
+    this.game.context.clearRect(
+      0,
+      0,
+      this.game.context.canvas.width,
+      this.game.context.canvas.height
+    );
+    this.game.context.drawImage(this.backgroundImage, this.x, 0);
+
+    this.game.context.drawImage(this.backgroundImage, this.backgroundImage.width + this.x, 0);
   }
-};
 
-const paint = () => {
-  context.clearRect(0, 0, context.canvas.width, context.canvas.height);
-  context.drawImage(backgroundImage, x, 0);
+  // const loop = timestamp => {
+  //   runLogic();
+  //   paint();
 
-  context.drawImage(backgroundImage, backgroundImage.width + x, 0);
-};
+  //   window.requestAnimationFrame(loop);
+  // };
 
-const loop = timestamp => {
-  runLogic();
-  paint();
-
-  window.requestAnimationFrame(loop);
-};
-
-loop();
+  // loop();
+}
