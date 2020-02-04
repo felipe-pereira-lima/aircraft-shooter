@@ -1,5 +1,6 @@
-class Background {
+class Background extends GameObject {
   constructor(game) {
+    super();
     this.game = game;
     this.x = 0;
 
@@ -10,7 +11,7 @@ class Background {
     this.backgroundImage.width = 600;
   }
 
-  runLogic() {
+  update(deltaTime) {
     this.x -= this.speed;
     if (this.x < -790) {
       debugger;
@@ -20,7 +21,7 @@ class Background {
     }
   }
 
-  paint() {
+  draw() {
     this.game.context.clearRect(
       0,
       0,

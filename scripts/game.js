@@ -1,35 +1,89 @@
 class Game {
   constructor($canvas) {
     this.canvas = $canvas;
-    this.context = $canvas.getContext('2d');
-    this.plane = new Player(this);
+    this.context = $canvas.getContext("2d");
+
+    this.player = new Player(this);
+
     this.gameIsRunning = true;
     this.startTime = new Date().getTime();
+
     this.background = new Background(this);
+
+    this.enemyRate = 20;
+    this.enemyTimeStamp = 0;
+
+    this.enemy = [];
+
+    console.log(this.game);
+
     this.currentTime = 0;
-    this.loop();
+    this.coreLoop();
+    this.setKeyboardEventListeners();
   }
 
   cleanCanvas = () => {
-    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+    this.context.clearRect(
+      0,
+      0,
+      this.context.canvas.width,
+      this.context.canvas.height
+    );
   };
 
-  paint = () => {
+  update(deltaTime) {
+    this.background.update();
+
+    this.player.update(deltaTime);
+
+    for (let i = 0; i < this.enemy.length; i++) {
+      this.enemy[i].update(deltaTime);
+    }
+  }
+
+  draw() {
     this.cleanCanvas();
-    this.background.paint();
-    this.plane.drawImage();
-  };
 
-  /* background = () => {
-    this.background.paint()
-  } */
+    this.background.draw();
 
-  loop = timestamp => {
-    this.background.runLogic();
-    this.paint();
+    this.player.draw();
+
+    for (let i = 0; i < this.enemy.length; i++) this.enemy[i].draw();
+  }
+
+  setKeyboardEventListeners() {
+    window.addEventListener("keydown", event => {
+      switch (event.key) {
+        case "a":
+          if (this.enemyTimeStamp < Game.time) {
+            this.enemy.push(
+              new Enemy(
+                this.game.context,
+                new Vector(
+                  this.position.x + this.width * 1.5,
+                  this.position.y + this.height * 0.75
+                ),
+                new Vector(1, 0),
+                this.game.context.canvas.width
+              )
+            );
+            this.enemyTimeStamp = Game.time + this.enemyRate;
+          }
+          break;
+      }
+    });
+  }
+
+  coreLoop = timestamp => {
+    var oldTime = Game.time;
+    Game.time = timestamp;
+
+    var deltaTime = timestamp - oldTime;
+    if (!isNaN(deltaTime)) this.update(deltaTime);
+    this.draw();
 
     if (this.gameIsRunning) {
-      window.requestAnimationFrame(this.loop);
+      window.requestAnimationFrame(this.coreLoop);
     }
   };
 }
