@@ -8,7 +8,7 @@ class Enemy extends GameObject {
 
     this.image = new Image();
     this.image.src = "images/foe.png";
-    this.maxBoundaries = maxBoundaries;
+    this.maxBoundaries = maxBoundaries; //+ 100 to make off screen
     this.context = context;
   }
 

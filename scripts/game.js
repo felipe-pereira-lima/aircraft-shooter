@@ -15,8 +15,6 @@ class Game {
 
     this.enemy = [];
 
-    console.log(this.game);
-
     this.currentTime = 0;
     this.coreLoop();
     this.setKeyboardEventListeners();
@@ -58,13 +56,13 @@ class Game {
           if (this.enemyTimeStamp < Game.time) {
             this.enemy.push(
               new Enemy(
-                this.game.context,
+                this.context,
                 new Vector(
-                  this.position.x + this.width * 1.5,
-                  this.position.y + this.height * 0.75
+                  this.enemy.position + this.enemy.width * 1.5,
+                  this.enemy.position + this.enemy.height * 0.75
                 ),
                 new Vector(1, 0),
-                this.game.context.canvas.width
+                this.context.canvas.width
               )
             );
             this.enemyTimeStamp = Game.time + this.enemyRate;
