@@ -2,7 +2,7 @@ class Game {
   constructor($canvas) {
     this.canvas = $canvas;
     this.context = $canvas.getContext("2d");
-
+    this.menu = new Menu(this);
     this.player = new Player(this);
 
     this.gameIsRunning = true;
@@ -10,7 +10,7 @@ class Game {
 
     this.background = new Background(this);
 
-    this.enemyRate = -100; //added
+    this.enemyRate = 100; //added
     this.enemyTimeStamp = 0; //added
     this.enemy = []; //added
 
@@ -32,7 +32,7 @@ class Game {
     this.background.update();
 
     this.player.update(deltaTime);
-    //enemy loop added
+    //update enemy loop added
     for (let i = 0; i < this.enemy.length; i++) {
       this.enemy[i].update(deltaTime);
     }
@@ -41,10 +41,12 @@ class Game {
   draw() {
     this.cleanCanvas();
 
+    this.menu.draw();
+
     this.background.draw();
 
     this.player.draw();
-    //enemy loop added
+    //draw enemy loop added
     for (let i = 0; i < this.enemy.length; i++) this.enemy[i].draw();
   }
 
