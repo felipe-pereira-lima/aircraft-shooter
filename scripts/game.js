@@ -10,14 +10,13 @@ class Game {
 
     this.background = new Background(this);
 
-    this.enemyRate = 20;
-    this.enemyTimeStamp = 0;
-
-    this.enemy = [];
+    this.enemyRate = -100; //added
+    this.enemyTimeStamp = 0; //added
+    this.enemy = []; //added
 
     this.currentTime = 0;
+    this.setKeyboardEventListeners(); //added
     this.coreLoop();
-    this.setKeyboardEventListeners();
   }
 
   cleanCanvas = () => {
@@ -33,7 +32,7 @@ class Game {
     this.background.update();
 
     this.player.update(deltaTime);
-
+    //enemy loop added
     for (let i = 0; i < this.enemy.length; i++) {
       this.enemy[i].update(deltaTime);
     }
@@ -45,10 +44,11 @@ class Game {
     this.background.draw();
 
     this.player.draw();
-
+    //enemy loop added
     for (let i = 0; i < this.enemy.length; i++) this.enemy[i].draw();
   }
 
+  //whole enemy method added
   setKeyboardEventListeners() {
     window.addEventListener("keydown", event => {
       switch (event.key) {
@@ -58,14 +58,15 @@ class Game {
               new Enemy(
                 this.context,
                 new Vector(
-                  this.enemy.position + this.enemy.width * 1.5,
-                  this.enemy.position + this.enemy.height * 0.75
+                  this.enemy.position + this.enemy.width,
+                  this.enemy.position + this.enemy.height
                 ),
                 new Vector(1, 0),
                 this.context.canvas.width
               )
             );
             this.enemyTimeStamp = Game.time + this.enemyRate;
+            console.log("enemy!");
           }
           break;
       }

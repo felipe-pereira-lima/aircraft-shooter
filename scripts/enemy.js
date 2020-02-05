@@ -1,3 +1,5 @@
+//class added
+
 class Enemy extends GameObject {
   constructor(context, position, direction, maxBoundaries) {
     super();
@@ -5,17 +7,19 @@ class Enemy extends GameObject {
     this.direction = direction;
 
     this.speed = 3;
+    this.width = 30; //added
+    this.height = 30; //added
 
     this.image = new Image();
     this.image.src = "images/foe.png";
-    this.maxBoundaries = maxBoundaries; //+ 100 to make off screen
+    this.maxBoundaries = maxBoundaries;
     this.context = context;
   }
 
   update(deltaTime) {
     this.position = this.position.sum(this.direction.mult(this.speed));
     if (
-      this.position.x < this.maxBoundaries ||
+      this.position.x < this.maxBoundaries || // '<' instead of '>'
       this.position.y > this.maxBoundaries
     );
   }

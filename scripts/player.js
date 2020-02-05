@@ -82,6 +82,7 @@ class Player extends GameObject {
               )
             );
             this.fireTimeStamp = Game.time + this.fireRate;
+            console.log("fire");
           }
           break;
       }

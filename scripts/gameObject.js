@@ -48,7 +48,7 @@ class Vector {
     );
   }
 }
-//every other class will inherit the stuff from here
+//every other class will inherit the stuff from Vector + GameObject
 //2 methods: update & draw
 
 class GameObject {
