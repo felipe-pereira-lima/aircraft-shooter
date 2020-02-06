@@ -6,69 +6,84 @@ class Game {
     this.menu = new Menu(this);
     this.player = new Player(this);
 
-    this.gameIsRunning = true;
+    this.gameIsRunning = true; //false?
     this.startTime = new Date().getTime();
 
     this.background = new Background(this);
+    //TODO - Enemies properties should be in the enemies constructor
+    this.enemyRate = 3000; //added
+    this.enemyTimeStamp = 1000; //added
+    this.enemyRateIncrease = 4;
+    this.minEnemyRate = 500;
 
-    this.enemyRate = 1000; //added
-    this.enemyTimeStamp = 500; //added
-    this.enemyRateIncrease = 50;
-    this.minEnemyRate = 100;
-    
     this.gameObjects = [];
 
     this.currentTime = 0;
+
+    //TODO -Your game shouldnt start right away
     this.coreLoop();
   }
 
+  //TODO - Create or a button or a keyboard event listener that is going to start you game
+  //TODO - Reorganize you code to have a start that triggers the loop
+
   cleanCanvas = () => {
-    this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
+    this.context.clearRect(
+      0,
+      0,
+      this.context.canvas.width,
+      this.context.canvas.height
+    );
   };
 
   update(deltaTime) {
     this.background.update();
 
-    console.log(Game.kills);
-
     if (this.enemyTimeStamp < Game.time) {
-        this.gameObjects.push(
-            new Enemy( this.context, 
-                       new Vector(this.context.canvas.width, Math.random() * this.context.canvas.height * 0.65),
-                       new Vector(-1, 0),
-                       this.context.canvas.width
-            )
-        );
-        this.enemyTimeStamp = Game.time + this.enemyRate;
-        this.enemyRate = Math.max(this.minEnemyRate, this.enemyRate * 0.95);
+      this.gameObjects.push(
+        new Enemy(
+          this.context,
+          new Vector(
+            this.context.canvas.width,
+            Math.random() * this.context.canvas.height * 0.8
+          ),
+          new Vector(-1, 0),
+          this.context.canvas.width
+        )
+      );
+      this.enemyTimeStamp = Game.time + this.enemyRate;
+      this.enemyRate = Math.max(this.minEnemyRate, this.enemyRate * 0.975);
     }
 
     this.player.update(deltaTime);
     //update enemy loop added
     for (let i = 0; i < this.gameObjects.length; i++) {
       this.gameObjects[i].update(deltaTime);
-      for(let j = 0; j < this.gameObjects.length; j++) {
-        if(i == j)
-            continue;
-        if(this.gameObjects[i] instanceof Enemy && this.gameObjects[i].checkCollision(this.player)) {
-            this.gameIsRunning = false;
-            return;
+      for (let j = 0; j < this.gameObjects.length; j++) {
+        if (i == j) continue;
+        if (
+          this.gameObjects[i] instanceof Enemy &&
+          this.gameObjects[i].checkCollision(this.player)
+        ) {
+          this.gameIsRunning = false;
+          return;
         }
-        if(this.gameObjects[i].constructor === this.gameObjects[j].constructor) {
-            continue;
+        if (
+          this.gameObjects[i].constructor === this.gameObjects[j].constructor
+        ) {
+          continue;
         }
-        if(this.gameObjects[i].checkCollision(this.gameObjects[j])) {
-
-            this.gameObjects[i].notifyCollision(this.gameObjects[j]);
-            this.gameObjects[j].notifyCollision(this.gameObjects[i]);
+        if (this.gameObjects[i].checkCollision(this.gameObjects[j])) {
+          this.gameObjects[i].notifyCollision(this.gameObjects[j]);
+          this.gameObjects[j].notifyCollision(this.gameObjects[i]);
         }
       }
     }
     for (let i = 0; i < this.gameObjects.length; i++) {
-        if(this.gameObjects[i].isAlive == false) {
-            this.gameObjects.splice(i, 1);
-            i--;
-        }
+      if (this.gameObjects[i].isAlive == false) {
+        this.gameObjects.splice(i, 1);
+        i--;
+      }
     }
     //console.log(this.gameObjects.length);
   }
@@ -82,17 +97,19 @@ class Game {
 
     this.player.draw();
     //draw enemy loop added
-    for (let i = 0; i < this.gameObjects.length; i++) 
-        this.gameObjects[i].draw();
+    for (let i = 0; i < this.gameObjects.length; i++)
+      this.gameObjects[i].draw();
   }
 
   //called core because it is in the loop that the game will run.
   coreLoop = timestamp => {
     var oldTime = Game.time;
     Game.time = timestamp;
-
     var deltaTime = timestamp - oldTime;
+
+    //TODO - figure out why you are using it
     if (!isNaN(deltaTime)) this.update(deltaTime);
+
     this.draw();
 
     if (this.gameIsRunning) {

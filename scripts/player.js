@@ -7,14 +7,14 @@ class Player extends GameObject {
     this.position.y = 100;
     this.size.x = 50;
     this.size.y = 50;
-    
+
     this.velocityVector = new Vector();
     this.maxSpeed = 6;
     this.accel = 4;
 
     this.fireRate = 100;
     this.fireTimeStamp = 0;
-    
+
     this.image = new Image();
     this.image.src = "images/cup.png";
 
@@ -56,6 +56,7 @@ class Player extends GameObject {
 
   setKeyboardEventListeners() {
     window.addEventListener("keydown", event => {
+      event.preventDefault();
       switch (event.key) {
         case "ArrowDown":
           this.velocityVector.y += this.accel;

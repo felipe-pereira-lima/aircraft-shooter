@@ -18,8 +18,7 @@ class Enemy extends GameObject {
 
   update(deltaTime) {
     this.position = this.position.sum(this.direction.mult(this.speed));
-    if (this.position.x < -this.size.x)
-      this.isAlive = false;
+    if (this.position.x < -this.size.x) this.isAlive = false;
   }
 
   draw() {
@@ -27,9 +26,9 @@ class Enemy extends GameObject {
   }
 
   notifyCollision(other) {
-    if(this.isAlive && other instanceof Bullet) {
-        this.isAlive = false;
-        Game.kills++;
+    if (this.isAlive && other instanceof Bullet) {
+      this.isAlive = false;
+      Game.kills++;
     }
   }
 }
