@@ -5,15 +5,16 @@ class Player extends GameObject {
 
     this.position.x = 25;
     this.position.y = 100;
+    this.size.x = 50;
+    this.size.y = 50;
+    
     this.velocityVector = new Vector();
     this.maxSpeed = 6;
     this.accel = 4;
 
     this.fireRate = 100;
     this.fireTimeStamp = 0;
-
-    this.width = 50;
-    this.height = 50;
+    
     this.image = new Image();
     this.image.src = "images/cup.png";
 
@@ -36,14 +37,14 @@ class Player extends GameObject {
     );
     this.position = this.position.clampXY(
       0,
-      this.game.context.canvas.width - this.width * 2,
+      this.game.context.canvas.width - this.size.x * 2,
       0,
-      this.game.context.canvas.height - this.height * 4
+      this.game.context.canvas.height - this.size.y * 4
     );
 
     for (let i = 0; i < this.bullets.length; i++) {
       if (this.bullets[i].isDirty) {
-        //when the player shoots, a bullet is added to a li
+        //when the player shoots, a bullet is added to a list
       } else this.bullets[i].update(deltaTime); //bullet is called
     }
   }
@@ -70,12 +71,12 @@ class Player extends GameObject {
           break;
         case "Enter":
           if (this.fireTimeStamp < Game.time) {
-            this.bullets.push(
+            this.game.gameObjects.push(
               new Bullet(
                 this.game.context,
                 new Vector(
-                  this.position.x + this.width * 1.5,
-                  this.position.y + this.height * 0.75
+                  this.position.x + this.size.x * 1.5,
+                  this.position.y + this.size.y * 0.75
                 ),
                 new Vector(1, 0),
                 this.game.context.canvas.width

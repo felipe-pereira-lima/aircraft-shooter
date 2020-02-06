@@ -1,6 +1,5 @@
-class Menu extends GameObject {
+class Menu {
   constructor(game) {
-    super();
     this.game = game;
     this.screen = "menu";
     this.image = new Image();

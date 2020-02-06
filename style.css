@@ -2,3 +2,9 @@ body {
   background-image: url("images/bg.png");
   background-size: auto;
 }
+
+h1 {
+  position: relative;
+  left: 660px;
+  top: 570px;
+}

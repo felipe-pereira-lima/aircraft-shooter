@@ -7,7 +7,7 @@ class Background extends GameObject {
     this.speed = 5;
 
     this.backgroundImage = new Image();
-    this.backgroundImage.src = 'images/bg.jpg';
+    this.backgroundImage.src = "images/bg.jpg";
     this.backgroundImage.width = 600;
   }
 
@@ -30,15 +30,10 @@ class Background extends GameObject {
     );
     this.game.context.drawImage(this.backgroundImage, this.x, 0);
 
-    this.game.context.drawImage(this.backgroundImage, this.backgroundImage.width + this.x, 0);
+    this.game.context.drawImage(
+      this.backgroundImage,
+      this.backgroundImage.width + this.x,
+      0
+    );
   }
-
-  // const loop = timestamp => {
-  //   runLogic();
-  //   paint();
-
-  //   window.requestAnimationFrame(loop);
-  // };
-
-  // loop();
 }

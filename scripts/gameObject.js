@@ -22,14 +22,14 @@ class Vector {
     return new Vector(this.x * number, this.y * number);
   }
   lerp(to, amount) {
-    //this means interpolação linear
+    //lerp avoids "teleportation" and eases the values
     if (isNaN(amount)) {
       return this;
     }
     return new Vector(Lerp(this.x, to.x, amount), Lerp(this.y, to.y, amount));
   }
   clamp(min, max) {
-    //this limits values up to a certain value
+    //this limits values between the defined range
     if (isNaN(min) || isNaN(max)) {
       return this;
     }
@@ -48,17 +48,30 @@ class Vector {
     );
   }
 }
-//every other class will inherit the stuff from Vector + GameObject
-//2 methods: update & draw
+//every other class will inherit the methods above
 
+//2 methods in GameObject: update & draw
 class GameObject {
   constructor() {
+    this.name     = "";
+    this.isAlive  = true;
     this.position = new Vector();
+    this.size     = new Vector();
   }
   update(deltaTime) {
     //this method updates positions and logic
+    //deltaTime means the difference between the current frame and the frame before
   }
   draw() {
     //this method draws on screen
+  }
+  checkCollision(other) {
+    return other.position.x + other.size.x > this.position.x &&
+            other.position.x < this.position.x + this.size.x &&
+            other.position.y + other.size.y > this.position.y &&
+            other.position.y < this.position.y + this.size.y;
+  }
+  notifyCollision(other) {
+    //
   }
 }

@@ -4,8 +4,10 @@ class Bullet extends GameObject {
     this.position = position;
     this.direction = direction;
 
+    this.size.x = 2;
+    this.size.y = 1;
+
     this.speed = 5;
-    this.isDirty = false;
 
     this.image = new Image();
     this.image.src = "images/bullet.gif";
@@ -15,14 +17,17 @@ class Bullet extends GameObject {
 
   update(deltaTime) {
     this.position = this.position.sum(this.direction.mult(this.speed));
-    if (
-      this.position.x > this.maxBoundaries ||
-      this.position.y > this.maxBoundaries
-    )
-      this.isDirty = true;
+    if (this.position.x > this.maxBoundaries || this.position.y > this.maxBoundaries)
+      this.isAlive = false;
   }
 
   draw() {
     this.context.drawImage(this.image, this.position.x, this.position.y);
+  }
+
+  notifyCollision(other) {
+    if(this.isAlive && other instanceof Enemy) {
+        this.isAlive = false;
+    }
   }
 }
