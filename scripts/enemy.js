@@ -3,7 +3,7 @@
 class Enemy extends GameObject {
   constructor(game, position, direction, maxBoundaries) {
     super();
-    this.game = game;
+
     this.position = position;
     this.direction = direction;
     this.size.x = 40; //added
@@ -12,8 +12,9 @@ class Enemy extends GameObject {
     this.speed = 3;
 
     this.image = new Image();
-    this.image.src = "images/foe.png";
+    this.image.src = 'images/foe.png';
     this.maxBoundaries = maxBoundaries;
+    this.game = game;
   }
 
   update(deltaTime) {

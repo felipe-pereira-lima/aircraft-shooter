@@ -11,9 +11,9 @@ class Game {
 
     this.background = new Background(this);
     //TODO - Enemies properties should be in the enemies constructor
-    this.enemyRate = 3000; //added
+    this.enemyRate = 2500; //added
     this.enemyTimeStamp = 1000; //added
-    this.enemyRateIncrease = 4;
+    this.enemyRateIncrease = 6;
     this.minEnemyRate = 500;
 
     this.gameObjects = [];
@@ -59,7 +59,7 @@ class Game {
       );
       this.gameObjects.push(enemy);
       this.enemyTimeStamp = this.time + this.enemyRate;
-      this.enemyRate = Math.max(this.minEnemyRate, this.enemyRate * 0.975);
+      this.enemyRate = Math.max(this.minEnemyRate, this.enemyRate * 0.1);
     }
 
     this.player.update(deltaTime);
