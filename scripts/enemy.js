@@ -1,8 +1,9 @@
 //class added
 
 class Enemy extends GameObject {
-  constructor(context, position, direction, maxBoundaries) {
+  constructor(game, position, direction, maxBoundaries) {
     super();
+    this.game = game;
     this.position = position;
     this.direction = direction;
     this.size.x = 40; //added
@@ -13,7 +14,6 @@ class Enemy extends GameObject {
     this.image = new Image();
     this.image.src = "images/foe.png";
     this.maxBoundaries = maxBoundaries;
-    this.context = context;
   }
 
   update(deltaTime) {
@@ -22,13 +22,13 @@ class Enemy extends GameObject {
   }
 
   draw() {
-    this.context.drawImage(this.image, this.position.x, this.position.y);
+    this.game.context.drawImage(this.image, this.position.x, this.position.y);
   }
 
   notifyCollision(other) {
     if (this.isAlive && other instanceof Bullet) {
       this.isAlive = false;
-      Game.kills++;
+      this.game.kills++;
     }
   }
 }

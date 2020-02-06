@@ -8,7 +8,12 @@ class Menu {
   }
 
   draw() {
-    this.game.context.drawImage(this.image, 0, 0, 620, 480);
+    window.addEventListener("load", event => {
+      this.game.context.fillStyle = "red";
+      this.game.context.fillRect(0, 0, 620, 480);
+      this.game.context.drawImage(this.image, 0, 0, 620, 480);
+    });
+    console.log("menu drawing");
   }
 
   setKeyboardEventListeners() {
@@ -17,7 +22,7 @@ class Menu {
         case 13:
           if (this.screen === "menu") {
             this.game.gameIsRunning = true;
-            this.draw();
+            this.game.reset();
           }
           break;
       }

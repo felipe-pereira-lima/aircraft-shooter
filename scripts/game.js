@@ -1,6 +1,6 @@
 class Game {
   constructor($canvas) {
-    Game.kills = 0;
+    this.kills = 0;
     this.canvas = $canvas;
     this.context = $canvas.getContext("2d");
     this.menu = new Menu(this);
@@ -19,9 +19,17 @@ class Game {
     this.gameObjects = [];
 
     this.currentTime = 0;
-
     //TODO -Your game shouldnt start right away
-    this.coreLoop();
+    this.menu.draw();
+  }
+
+  reset() {
+    this.gameObjects = [];
+    this.player.position.x = 25;
+    this.player.position.y = 100;
+    if (!this.animation) {
+      this.coreLoop();
+    }
   }
 
   //TODO - Create or a button or a keyboard event listener that is going to start you game
@@ -39,53 +47,48 @@ class Game {
   update(deltaTime) {
     this.background.update();
 
-    if (this.enemyTimeStamp < Game.time) {
-      this.gameObjects.push(
-        new Enemy(
-          this.context,
-          new Vector(
-            this.context.canvas.width,
-            Math.random() * this.context.canvas.height * 0.8
-          ),
-          new Vector(-1, 0),
-          this.context.canvas.width
-        )
+    if (this.enemyTimeStamp < this.time) {
+      const enemy = new Enemy(
+        this,
+        new Vector(
+          this.context.canvas.width,
+          Math.random() * this.context.canvas.height * 0.8
+        ),
+        new Vector(-1, 0),
+        this.context.canvas.width
       );
-      this.enemyTimeStamp = Game.time + this.enemyRate;
+      this.gameObjects.push(enemy);
+      this.enemyTimeStamp = this.time + this.enemyRate;
       this.enemyRate = Math.max(this.minEnemyRate, this.enemyRate * 0.975);
     }
 
     this.player.update(deltaTime);
+
     //update enemy loop added
     for (let i = 0; i < this.gameObjects.length; i++) {
       this.gameObjects[i].update(deltaTime);
       for (let j = 0; j < this.gameObjects.length; j++) {
-        if (i == j) continue;
-        if (
+        if (i === j) {
+          continue;
+        } else if (
           this.gameObjects[i] instanceof Enemy &&
           this.gameObjects[i].checkCollision(this.player)
         ) {
           this.gameIsRunning = false;
-          return;
-        }
-        if (
-          this.gameObjects[i].constructor === this.gameObjects[j].constructor
+        } else if (
+          this.gameObjects[i].constructor !== this.gameObjects[j].constructor &&
+          this.gameObjects[i].checkCollision(this.gameObjects[j])
         ) {
-          continue;
-        }
-        if (this.gameObjects[i].checkCollision(this.gameObjects[j])) {
           this.gameObjects[i].notifyCollision(this.gameObjects[j]);
           this.gameObjects[j].notifyCollision(this.gameObjects[i]);
         }
       }
-    }
-    for (let i = 0; i < this.gameObjects.length; i++) {
+      // Check if is alive
       if (this.gameObjects[i].isAlive == false) {
         this.gameObjects.splice(i, 1);
         i--;
       }
     }
-    //console.log(this.gameObjects.length);
   }
 
   draw() {
@@ -102,9 +105,9 @@ class Game {
   }
 
   //called core because it is in the loop that the game will run.
-  coreLoop = timestamp => {
-    var oldTime = Game.time;
-    Game.time = timestamp;
+  coreLoop(timestamp) {
+    var oldTime = this.time;
+    this.time = timestamp;
     var deltaTime = timestamp - oldTime;
 
     //TODO - figure out why you are using it
@@ -113,7 +116,9 @@ class Game {
     this.draw();
 
     if (this.gameIsRunning) {
-      window.requestAnimationFrame(this.coreLoop);
+      this.animation = window.requestAnimationFrame(timestamp => {
+        this.coreLoop(timestamp);
+      });
     }
-  };
+  }
 }

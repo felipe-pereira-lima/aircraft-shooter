@@ -1,4 +1,4 @@
-Lerp = function(value1, value2, amount) {
+const Lerp = function(value1, value2, amount) {
   amount = amount < 0 ? 0 : amount;
   amount = amount > 1 ? 1 : amount;
   return value1 + (value2 - value1) * amount;
@@ -53,10 +53,10 @@ class Vector {
 //2 methods in GameObject: update & draw
 class GameObject {
   constructor() {
-    this.name     = "";
-    this.isAlive  = true;
+    this.name = "";
+    this.isAlive = true;
     this.position = new Vector();
-    this.size     = new Vector();
+    this.size = new Vector();
   }
   update(deltaTime) {
     //this method updates positions and logic
@@ -66,10 +66,12 @@ class GameObject {
     //this method draws on screen
   }
   checkCollision(other) {
-    return other.position.x + other.size.x > this.position.x &&
-            other.position.x < this.position.x + this.size.x &&
-            other.position.y + other.size.y > this.position.y &&
-            other.position.y < this.position.y + this.size.y;
+    return (
+      other.position.x + other.size.x > this.position.x &&
+      other.position.x < this.position.x + this.size.x &&
+      other.position.y + other.size.y > this.position.y &&
+      other.position.y < this.position.y + this.size.y
+    );
   }
   notifyCollision(other) {
     //

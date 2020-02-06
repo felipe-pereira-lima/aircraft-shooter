@@ -1,12 +1,10 @@
-1. Criar uma condição para não começar o game já na largada;
 
-2. Implementar a tela de menu no início
+1. Arrumar a colisão frontal do avião
 
-3. Implementar a tela de game over;
+2. Implementar a tela de game over;
 
-4. Implementar o score na tela; criar também o highscore e implementar na tela
+3. Implementar o score na tela; criar também o highscore e implementar na tela
 
-5. Aumentar a resolução do game e alterar as propriedades alteradas em decorrência (tamanhos dos 3 objetos do game + background loop)
+BONUS
 
-6. Parar com o scroll da imagem de fundo;
-
+4. Arrumar o Enter

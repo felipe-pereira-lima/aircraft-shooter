@@ -1,6 +1,7 @@
 class Player extends GameObject {
   constructor(game) {
     super();
+    this.kills = 0;
     this.game = game;
 
     this.position.x = 25;
@@ -70,8 +71,8 @@ class Player extends GameObject {
         case "ArrowLeft":
           this.velocityVector.x -= this.accel;
           break;
-        case "Enter":
-          if (this.fireTimeStamp < Game.time) {
+        case " ":
+          if (this.fireTimeStamp < this.game.time) {
             this.game.gameObjects.push(
               new Bullet(
                 this.game.context,
@@ -83,7 +84,7 @@ class Player extends GameObject {
                 this.game.context.canvas.width
               )
             );
-            this.fireTimeStamp = Game.time + this.fireRate;
+            this.fireTimeStamp = this.game.time + this.fireRate;
             console.log("fire");
           }
           break;
