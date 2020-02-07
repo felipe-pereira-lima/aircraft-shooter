@@ -1,13 +1,26 @@
+html,
 body {
-  background-image: url("images/bg.png");
   width: 100%;
   height: 100%;
-  position: absolute;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 0;
+  background-image: url("images/bg.png");
+  background-size: cover;
+  background-position: center;
   font-family: "Helvetica", cursive;
 }
 
+canvas {
+  transform: scale(1.2);
+  transform-origin: top center;
+}
+
 h1 {
-  position: relative;
-  left: 660px;
-  top: 570px;
+  margin-top: -2em;
 }

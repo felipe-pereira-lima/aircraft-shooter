@@ -2,25 +2,30 @@ class Menu {
   constructor(game) {
     this.game = game;
     this.screen = "menu";
-    this.image = new Image();
-    this.image.src = "images/menu.png";
+    this.imageOver = new Image();
+    this.imageOver.src = "images/gameover.png";
+
     this.setKeyboardEventListeners();
   }
 
   draw() {
-    window.addEventListener("load", event => {
+    this.image = new Image();
+    this.image.src = "images/menu.png";
+    this.image.addEventListener("load", () => {
       this.game.context.drawImage(this.image, 0, 0, 620, 480);
     });
+  }
+
+  endScreenDraw() {
+    this.game.context.drawImage(this.imageOver, 0, 0, 620, 480);
   }
 
   setKeyboardEventListeners() {
     window.addEventListener("keydown", event => {
       switch (event.keyCode) {
         case 13:
-          if (this.screen === "menu") {
-            this.game.gameIsRunning = true;
-            this.game.reset();
-          }
+          this.game.reset();
+
           break;
       }
     });

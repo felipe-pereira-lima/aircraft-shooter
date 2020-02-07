@@ -8,14 +8,13 @@ class Game {
     this.menu = new Menu(this);
     this.player = new Player(this);
 
-    this.gameIsRunning = true;
+    this.gameIsRunning = false;
     this.startTime = new Date().getTime();
 
     this.background = new Background(this);
-    this.enemyRate = 50;
+    this.enemyRate = 1000;
     this.enemyTimeStamp = 200;
     this.enemyRateIncrease = 500;
-    this.minEnemyRate = 300;
 
     this.gameOverImage = new Image();
     this.gameOverImage.src = "images/gameover.png";
@@ -32,7 +31,8 @@ class Game {
     this.player.position.x = 25;
     this.player.position.y = 100;
 
-    if (!this.animation) {
+    if (!this.gameIsRunning) {
+      this.gameIsRunning = true; // = !=gameIsRunning
       this.coreLoop();
     }
   }
@@ -61,7 +61,7 @@ class Game {
       );
       this.gameObjects.push(enemy);
       this.enemyTimeStamp = this.time + this.enemyRate;
-      this.enemyRate = Math.max(this.minEnemyRate, this.enemyRate * 0.1);
+      this.enemyRate = this.enemyRate * 0.98;
     }
 
     this.player.update(deltaTime);
@@ -76,7 +76,7 @@ class Game {
           this.gameObjects[i].checkCollision(this.player)
         ) {
           this.gameIsRunning = false;
-          this.reset();
+          this.menu.endScreenDraw();
         } else if (
           this.gameObjects[i].constructor !== this.gameObjects[j].constructor &&
           this.gameObjects[i].checkCollision(this.gameObjects[j])
@@ -85,7 +85,10 @@ class Game {
           this.gameObjects[j].notifyCollision(this.gameObjects[i]);
         }
       }
-      if (this.gameObjects[i].isAlive == false) {
+      if (
+        this.gameObjects.length !== 0 &&
+        this.gameObjects[i].isAlive == false
+      ) {
         this.gameObjects.splice(i, 1);
         i--;
       }
@@ -95,14 +98,17 @@ class Game {
   draw() {
     this.cleanCanvas();
 
-    this.menu.draw();
+    if (!this.gameIsRunning) {
+      this.menu.draw();
+    } else {
+      this.background.draw();
 
-    this.background.draw();
+      this.player.draw();
 
-    this.player.draw();
-
-    for (let i = 0; i < this.gameObjects.length; i++)
-      this.gameObjects[i].draw();
+      for (let i = 0; i < this.gameObjects.length; i++) {
+        this.gameObjects[i].draw();
+      }
+    }
   }
 
   coreLoop(timestamp) {
@@ -112,10 +118,9 @@ class Game {
 
     if (!isNaN(deltaTime)) this.update(deltaTime);
 
-    this.draw();
-    this.score.innerText = `Score: ${this.kills}`;
-
     if (this.gameIsRunning) {
+      this.draw();
+      this.score.innerText = `Score: ${this.kills}`;
       this.animation = window.requestAnimationFrame(timestamp => {
         this.coreLoop(timestamp);
       });
