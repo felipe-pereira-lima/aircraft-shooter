@@ -12,7 +12,8 @@ class Game {
     this.startTime = new Date().getTime();
 
     this.background = new Background(this);
-    this.enemyRate = 1000;
+    this.baseRate = 1000;
+    this.enemyRate = this.baseRate;
     this.enemyTimeStamp = 200;
     this.enemyRateIncrease = 500;
 
@@ -31,6 +32,7 @@ class Game {
     this.gameObjects = [];
     this.player.position.x = 25;
     this.player.position.y = 100;
+    this.enemyRate = this.baseRate;
 
     if (!this.gameIsRunning) {
       this.gameIsRunning = true; // = !=gameIsRunning
