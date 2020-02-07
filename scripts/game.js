@@ -61,7 +61,7 @@ class Game {
       );
       this.gameObjects.push(enemy);
       this.enemyTimeStamp = this.time + this.enemyRate;
-      this.enemyRate = this.enemyRate * 0.98;
+      this.enemyRate = this.enemyRate * 0.97;
     }
 
     this.player.update(deltaTime);
