@@ -27,6 +27,7 @@ class Game {
   }
 
   reset() {
+    this.kills = 0;
     this.gameObjects = [];
     this.player.position.x = 25;
     this.player.position.y = 100;
@@ -61,7 +62,7 @@ class Game {
       );
       this.gameObjects.push(enemy);
       this.enemyTimeStamp = this.time + this.enemyRate;
-      this.enemyRate = this.enemyRate * 0.97;
+      this.enemyRate = this.enemyRate * 0.99;
     }
 
     this.player.update(deltaTime);
