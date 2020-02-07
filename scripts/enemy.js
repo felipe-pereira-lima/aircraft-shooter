@@ -6,8 +6,8 @@ class Enemy extends GameObject {
     this.game = game;
     this.position = position;
     this.direction = direction;
-    this.size.x = 40; //added
-    this.size.y = 50; //added
+    this.size.x = 40;
+    this.size.y = 50;
 
     this.speed = 3;
 

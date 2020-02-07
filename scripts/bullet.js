@@ -16,7 +16,6 @@ class Bullet extends GameObject {
   }
 
   update(deltaTime) {
-    console.log(deltaTime);
     this.position = this.position.sum(this.direction.mult(this.speed));
     if (
       this.position.x > this.maxBoundaries ||

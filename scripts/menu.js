@@ -11,7 +11,6 @@ class Menu {
     window.addEventListener("load", event => {
       this.game.context.drawImage(this.image, 0, 0, 620, 480);
     });
-    console.log("menu drawing");
   }
 
   setKeyboardEventListeners() {

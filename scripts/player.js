@@ -1,7 +1,6 @@
 class Player extends GameObject {
   constructor(game) {
     super();
-    this.kills = 0;
     this.game = game;
 
     this.position.x = 25;
@@ -20,8 +19,6 @@ class Player extends GameObject {
     this.image.src = "images/cup.png";
 
     this.bullets = [];
-
-    console.log(this.game);
 
     this.setKeyboardEventListeners();
   }
@@ -45,8 +42,7 @@ class Player extends GameObject {
 
     for (let i = 0; i < this.bullets.length; i++) {
       if (this.bullets[i].isDirty) {
-        //when the player shoots, a bullet is added to a list
-      } else this.bullets[i].update(deltaTime); //bullet is called
+      } else this.bullets[i].update(deltaTime);
     }
   }
 
@@ -85,7 +81,6 @@ class Player extends GameObject {
               )
             );
             this.fireTimeStamp = this.game.time + this.fireRate;
-            console.log("fire");
           }
           break;
       }

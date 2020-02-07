@@ -22,14 +22,12 @@ class Vector {
     return new Vector(this.x * number, this.y * number);
   }
   lerp(to, amount) {
-    //lerp avoids "teleportation" and eases the values
     if (isNaN(amount)) {
       return this;
     }
     return new Vector(Lerp(this.x, to.x, amount), Lerp(this.y, to.y, amount));
   }
   clamp(min, max) {
-    //this limits values between the defined range
     if (isNaN(min) || isNaN(max)) {
       return this;
     }
@@ -48,9 +46,7 @@ class Vector {
     );
   }
 }
-//every other class will inherit the methods above
 
-//2 methods in GameObject: update & draw
 class GameObject {
   constructor() {
     this.name = "";
@@ -58,13 +54,8 @@ class GameObject {
     this.position = new Vector();
     this.size = new Vector();
   }
-  update(deltaTime) {
-    //this method updates positions and logic
-    //deltaTime means the difference between the current frame and the frame before
-  }
-  draw() {
-    //this method draws on screen
-  }
+  update(deltaTime) {}
+  draw() {}
   checkCollision(other) {
     return (
       other.position.x + other.size.x > this.position.x &&
